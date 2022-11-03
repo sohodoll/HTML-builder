@@ -4,18 +4,17 @@ const { stdin, stdout } = process;
 
 const writeStream = fs.createWriteStream(path.resolve(__dirname, 'text.txt'));
 
-stdout.write('Write something to add to the text file!');
+stdout.write('Write something to add to the text file!\n');
 
 stdin.on('data', data => {
-    writeStream.on('data', (userText) => {
-        fs.writeFile(
-            path.join(__dirname, 'notes', 'text.txt'),
-            userText,
-            (err) => {
-                if (err) throw err;
-                console.log('File updated!');
-            }
-        );
+    writeStream.write(data);
+    stdout.write('Written! Anything else?\n');
+    process.on('SIGINT', () => {
+        stdout.write('\nThanks, GL & HF!\n');
+        process.exit();
     })
 });
+
+
+
 
