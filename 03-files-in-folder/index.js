@@ -14,13 +14,13 @@ async function findFiles(folderPath) {
     console.log('These are the files inside this directory:')
     for (const file of files) {
         if(!file.isDirectory()) {
-            let fileName = file.name;
-            let fileExt = path.extname(fileName);
-            let fileSize = fs.stat(dirPath + '/' + fileName, (err, stats) => {
+            let fileName = file.name.substr(0, file.name.lastIndexOf("."));
+            let fileExt = path.extname(file.name);
+            let fileSize = fs.stat(dirPath + '/' + file.name, (err, stats) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(fileName, fileExt, stats.size +'kb');
+                    console.log(fileName, fileExt, stats.size + 'bytes');
                 }
             });
         };
