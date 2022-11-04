@@ -9,26 +9,26 @@ let copyPath = path.resolve(__dirname, 'files-copy' )
 
 //create dir if it doesn't exists
 
-const doesExist = (dir) => {
-    fs.access(dir, err => {
-        if (err) {
-            result = 'NO'
-        } else {
-            result = 'YE';
-        }
-        console.log(result);
-    })
-}
+fs.mkdir(copyPath, (err) => {
+    if (err) {
+    }
+});
 
 const createDir = (dir) => {
-    if (result = 'NO') {
+    fs.readdir(dir, (err, files) => {
+        if (err) throw err;
+        for (const file of files) {
+          fs.unlink(path.join(dir, file), (err) => {
+            if (err) throw err;
+          });
+        }
+      });
         fs.mkdir(dir, (err) => {
             if (err) {
-                return console.log('already exists!');
+                console.log('doing magic');
             }
             console.log('dir copied');
         });
-    }
 };
 
 createDir(copyPath);
@@ -54,7 +54,6 @@ async function findFiles(folderPath) {
     })
 
     copyFiles(dirPath, copyPath, fileNames).then(() => {
-        console.log("done");
      }).catch(err => {
         console.log(err);
      });
@@ -63,9 +62,9 @@ async function findFiles(folderPath) {
 
 // copy files
 
-function copyFiles(srcDir, destDir, files) {
+function copyFiles(srcDir, dir, files) {
     return Promise.all(files.map(f => {
-       return copyFilePromise(path.join(srcDir, f), path.join(destDir, f));
+       return copyFilePromise(path.join(srcDir, f), path.join(dir, f));
     }));
 }
 
