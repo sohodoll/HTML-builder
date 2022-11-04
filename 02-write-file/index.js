@@ -7,13 +7,18 @@ const writeStream = fs.createWriteStream(path.resolve(__dirname, 'text.txt'));
 stdout.write('Write something to add to the text file!\n');
 
 stdin.on('data', data => {
-    writeStream.write(data);
-    stdout.write('Written! Anything else?\n');
-    process.on('SIGINT', () => {
+    if (data.toString() == 'exit\n') {
         stdout.write('\nThanks, GL & HF!\n');
         process.exit();
-    })
+    }
+    writeStream.write(data);
+    stdout.write('Written! Anything else?\n');
 });
+
+process.on('SIGINT', () => {
+    stdout.write('\nThanks, GL & HF!\n');
+    process.exit();
+})
 
 
 
