@@ -7,7 +7,7 @@ const writeStream = fs.createWriteStream(path.resolve(__dirname, 'project-dist/b
 let stylesArr = [];
 
 
-async function listFiles(dir) {
+async function bundleStyles(dir) {
     await findFiles(dir);
 }
 
@@ -34,4 +34,4 @@ async function findFiles(dir) {
 }
 
 
-listFiles(stylesDir);
+bundleStyles(stylesDir);
